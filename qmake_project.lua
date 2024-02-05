@@ -42,6 +42,7 @@ function m.generate(prj)
 		m.resources(cfg)
 		m.headers(cfg)
 		m.sources(cfg)
+		m.windows_resource(cfg)
 
 		m.includepath(cfg)
 		m.pchheader(cfg)
@@ -255,6 +256,11 @@ end
 
 function m.sources(cfg)
 	m.files(cfg, "SOURCES", {".c", ".cc", ".cpp", ".cxx"}, function(filecfg) return filecfg.flags.ExcludeFromBuild or filecfg.buildaction == "None" end)
+end
+
+function m.windows_resource(cfg)
+	m.files(cfg, "RC_FILE", {".rc"})
+	m.files(cfg, "RES_FILE", {".res"})
 end
 
 --
