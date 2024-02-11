@@ -31,6 +31,7 @@ function m.generate(prj)
 		m.mocDir(cfg)
 		m.rccDir(cfg)
 		m.uiDir(cfg)
+		m.qmDir(cfg)
 		m.objDir(cfg)
 
 		m.qt(cfg)
@@ -42,6 +43,7 @@ function m.generate(prj)
 		m.resources(cfg)
 		m.headers(cfg)
 		m.sources(cfg)
+		m.tsFiles(cfg)
 
 		m.includepath(cfg)
 		m.pchheader(cfg)
@@ -72,6 +74,7 @@ m.configs.funcs = function(cfg)
 		m.configs.kind,
 		m.configs.rtti,
 		m.configs.cppdialect,
+		m.configs.lrelease
 	}
 end
 
@@ -107,6 +110,10 @@ function m.configs.cppdialect(cfg)
 	if dialects[cfg.cppdialect] then
 		p.w(dialects[cfg.cppdialect])
 	end
+end
+
+function m.configs.lrelease(cfg)
+	p.w('lrelease')
 end
 
 --
@@ -151,6 +158,15 @@ end
 function m.uiDir(cfg)
 	if cfg.objdir then
 		p.w('UI_DIR = "%s"', pwdpath(p.project.getrelative(cfg.project, cfg.objdir)))
+	end
+end
+
+--
+-- Qm directory
+--
+function m.qmDir(cfg)
+	if cfg.buildtarget.directory then
+		p.w('QM_FILES_INSTALL_PATH = "%s"', pwdpath(p.project.getrelative(cfg.project, cfg.buildtarget.directory)))
 	end
 end
 
@@ -247,6 +263,10 @@ end
 
 function m.resources(cfg)
 	m.files(cfg, "RESOURCES", {".qrc"})
+end
+
+function m.tsFiles(cfg)
+	m.files(cfg, "TRANSLATIONS", {".ts"})
 end
 
 function m.headers(cfg)
